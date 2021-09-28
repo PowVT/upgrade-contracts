@@ -1,15 +1,26 @@
 # Upgradable Contracts Hardhat Project
 
-Whenever you deploy a new contract using deployProxy in the OpenZeppelin Upgrades Plugins, that contract instance can be upgraded later. By default, only the address that originally deployed the contract has the rights to upgrade it.
+Whenever you deploy a new contract using ```bash deployProxy ``` in the OpenZeppelin Upgrades Plugins, that contract instance can be upgraded later. By default, only the address that originally deployed the contract have the rights to upgrade it.
 
-deployProxy will create the following transactions:
+### Definitions
 
-1. Deploy the implementation contract (our Box contract)
+Proxy Contract: A contract which the user interacts with. This contract stores the 'state' (balances, local variables not inside functions, etc...).
 
-2. Deploy the ProxyAdmin contract (the admin for our proxy).
+Implementation Contract: This contract houses all the actual code that is executed via a delegate call from the proxy contract. 
 
-3. Deploy the proxy contract and run any initializer function.
+### Upgrade Pattern
 
+In a upgradable scenario, you have a proxy contract that is deployed and only updated if a new implementation contract is deployed. This contract never actually changes it is just 'upgraded' since it is now pointing at a new implementation contract. 
+
+User ---- tx ---> Proxy ----------> Implementation_v0
+                     |
+                      ------------> Implementation_v1
+                     |
+                      ------------> Implementation_v2
+
+This pattern is done by using the EVM delegateCall opcode. This means the callers tx is executed with the implementation contracts logic, but the byte code is sent back to the proxy contract via the delegate call mechanism. Here the proxy contract represents the pair's 'state'. Hence being upgradable in the sense that the implementation contract can be changed out if there is a bug or design change that requires updating. 
+
+### Shell Commands
 Try running some of the following tasks:
 
 ```shell
@@ -19,5 +30,14 @@ npx hardhat clean
 npx hardhat test
 npx hardhat node
 node scripts/create-box.js
-npx hardhat help
+node scripts/deploy.js
+npx hardhat generate
+npx hardhat account
 ```
+### Getting Started/ Install
+```shell
+git clone 
+cd 
+yarn install
+```
+

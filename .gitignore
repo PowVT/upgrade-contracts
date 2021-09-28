@@ -1,8 +1,13 @@
 node_modules
 
-#Hardhat files
 cache
+
 artifacts
 
 .openzeppelin
 
+mnemonic.txt
+
+package-lock.json
+
+0xe91eb48d77a865402a451e8180d2ce36bf8bc25e.txt
