@@ -7,9 +7,9 @@ const R = require("ramda");
 const main = async () => {
     console.log("\n\n 📡 Deploying...\n");
   
-    const Box = await deploy("Box"); // <-- add in constructor args like line 19 vvvv
+    const Box = await deploy("Box"); // <-- add in constructor args like below vvvv
     // use for local token bridging
-    // const mockToken = await deploy("MockERC20") // <-- add in constructor args like line 19 vvvv
+    // const mockToken = await deploy("MockERC20") // <-- add in constructor args like below vvvv
   
     //const yourContract = await ethers.getContractAt('YourContract', "0xaAC799eC2d00C013f1F11c37E654e59B0429DF6A") //<-- if you want to instantiate a version of a contract at a specific address!
     //const secondContract = await deploy("SecondContract")
@@ -31,14 +31,6 @@ const main = async () => {
     //If you want to send some ETH to a contract on deploy (make your constructor payable!)
     const yourContract = await deploy("YourContract", [], {
     value: ethers.utils.parseEther("0.05")
-    });
-    */
-  
-    /*
-    //If you want to link a library into your contract:
-    // reference: https://github.com/austintgriffith/scaffold-eth/blob/using-libraries-example/packages/hardhat/scripts/deploy.js#L19
-    const yourContract = await deploy("YourContract", [], {}, {
-     LibraryName: **LibraryAddress**
     });
     */
   
@@ -117,28 +109,6 @@ const abiEncodeArgs = (deployed, contractArgs) => {
     );
     return encoded;
 };
-  
-// checks if it is a Solidity file
-const isSolidity = (fileName) =>
-    fileName.indexOf(".sol") >= 0 &&
-    fileName.indexOf(".swp") < 0 &&
-    fileName.indexOf(".swap") < 0;
-  
-const readArgsFile = (contractName) => {
-    let args = [];
-    try {
-      const argsFile = `./contracts/${contractName}.args`;
-      if (!fs.existsSync(argsFile)) return args;
-      args = JSON.parse(fs.readFileSync(argsFile));
-    } catch (e) {
-      console.log(e);
-    }
-    return args;
-};
-  
-function sleep(ms) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-}
 
 main()
 .then(() => process.exit(0))

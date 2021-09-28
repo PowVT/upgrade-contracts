@@ -6,6 +6,80 @@ const fs = require("fs");
 
 const DEBUG = true;
 
+//
+// Select the network you want to deploy to here:
+//
+const defaultNetwork = "rinkeby";
+
+const mainnetGwei = 21;
+
+// Get mnemonic.txt file and return
+function mnemonic() {
+  try {
+    return fs.readFileSync("./mnemonic.txt").toString().trim();
+  } catch (e) {
+    if (defaultNetwork !== "localhost") {
+      console.log(
+        "☢️ WARNING: No mnemonic file created for a deploy account. Try `yarn run generate` and then `yarn run account`."
+      );
+    }
+  }
+  return "";
+}
+
+/**
+ * @type import('hardhat/config').HardhatUserConfig
+ */
+module.exports = {
+  defaultNetwork,
+  solidity: "0.7.3",
+  networks: {
+    mainnet: {
+      url: "https://mainnet.infura.io/v3/0998bcf49e0640fd9f31fb01262f8433", // <---- YOUR INFURA ID!
+      gasPrice: mainnetGwei*1000000000,
+      accounts: {
+        mnemonic: mnemonic(),
+      },
+    },
+    localhost: {
+      url: "http://localhost:8545"
+    },
+    rinkeby: {
+      url: "https://rinkeby.infura.io/v3/0998bcf49e0640fd9f31fb01262f8433", // <---- YOUR INFURA ID!
+      accounts: {
+        mnemonic: mnemonic(),
+      },
+    },
+    kovan: {
+      url: "https://kovan.infura.io/v3/0998bcf49e0640fd9f31fb01262f8433", // <---- YOUR INFURA ID!
+      accounts: {
+        mnemonic: mnemonic(),
+      },
+    },
+    
+    ropsten: {
+      url: "https://ropsten.infura.io/v3/0998bcf49e0640fd9f31fb01262f8433", // <---- YOUR INFURA ID!
+      accounts: {
+        mnemonic: mnemonic(),
+      },
+    },
+    goerli: {
+      url: "https://goerli.infura.io/v3/0998bcf49e0640fd9f31fb01262f8433", // <---- YOUR INFURA ID!
+      accounts: {
+        mnemonic: mnemonic(),
+      },
+    },
+    xdai: {
+      url: "https://rpc.xdaichain.com/",
+      gasPrice: 1000000000,
+      accounts: {
+        mnemonic: mnemonic(),
+      },
+    },
+  }
+};
+
+// See all the local hardhat accounts
 task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
   const accounts = await hre.ethers.getSigners();
 
@@ -94,76 +168,3 @@ task(
     }
   }
 );
-
-//
-// Select the network you want to deploy to here:
-//
-const defaultNetwork = "rinkeby";
-
-const mainnetGwei = 21;
-
-// Get mnemonic.txt file and return
-function mnemonic() {
-  try {
-    return fs.readFileSync("./mnemonic.txt").toString().trim();
-  } catch (e) {
-    if (defaultNetwork !== "localhost") {
-      console.log(
-        "☢️ WARNING: No mnemonic file created for a deploy account. Try `yarn run generate` and then `yarn run account`."
-      );
-    }
-  }
-  return "";
-}
-
-/**
- * @type import('hardhat/config').HardhatUserConfig
- */
-module.exports = {
-  defaultNetwork,
-  solidity: "0.7.3",
-  networks: {
-    mainnet: {
-      url: "https://mainnet.infura.io/v3/0998bcf49e0640fd9f31fb01262f8433", // <---- YOUR INFURA ID!
-      gasPrice: mainnetGwei*1000000000,
-      accounts: {
-        mnemonic: mnemonic(),
-      },
-    },
-    localhost: {
-      url: "http://localhost:8545"
-    },
-    rinkeby: {
-      url: "https://rinkeby.infura.io/v3/0998bcf49e0640fd9f31fb01262f8433", // <---- YOUR INFURA ID!
-      accounts: {
-        mnemonic: mnemonic(),
-      },
-    },
-    kovan: {
-      url: "https://kovan.infura.io/v3/0998bcf49e0640fd9f31fb01262f8433", // <---- YOUR INFURA ID!
-      accounts: {
-        mnemonic: mnemonic(),
-      },
-    },
-    
-    ropsten: {
-      url: "https://ropsten.infura.io/v3/0998bcf49e0640fd9f31fb01262f8433", // <---- YOUR INFURA ID!
-      accounts: {
-        mnemonic: mnemonic(),
-      },
-    },
-    goerli: {
-      url: "https://goerli.infura.io/v3/0998bcf49e0640fd9f31fb01262f8433", // <---- YOUR INFURA ID!
-      accounts: {
-        mnemonic: mnemonic(),
-      },
-    },
-    xdai: {
-      url: "https://rpc.xdaichain.com/",
-      gasPrice: 1000000000,
-      accounts: {
-        mnemonic: mnemonic(),
-      },
-    },
-  }
-};
