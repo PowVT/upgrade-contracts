@@ -26,7 +26,7 @@ yarn install
 ## General Outline of this Project:
 1. Deploy the Box.sol contract as normal with the deploy.js script. (Optional: Change a variable from the command line)
 2. Deploy proxy Box.sol contract using the ```upgrades.deployProxy``` in the deploy-proxy.js script. (Optional: Verify that the changes made to the Box contract are still valid state in the proxy contract)
-3. Transfer ownership of the Box.sol contract to a Gnosis Safe. Using a Gnosis safe is very handy when upgrading contracts since they have a built in OpenZeppelin app library.
+3. Transfer ownership of the Box.sol contract to a Gnosis Safe. Use the transfer-ownership.js script and enter in your own Gnosis safe address. As a side note: Using a Gnosis safe is very handy when upgrading contracts since they have a built in OpenZeppelin app library.
 4. Later in time, the contract may need to be updated to V2...
 5. Now we use the prepare-upgrade.js script to call the ```upgrades.prepareUpgrade``` method. This will check that the proxy contract is a valid ERC1967 contract.
 6. Now we can go into our Gnosis safe and upgrade the contract. Here you need to enter both the proxy contract address and the new implementation contract (V2). Once the transaction goes through, the upgrade will be sucessfull.
