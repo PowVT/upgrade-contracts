@@ -1,4 +1,4 @@
-# Upgradable Contracts Hardhat Project (ERC1967)
+# Upgradable Contracts Hardhat Project (ERC897/1967)
 
 Whenever you deploy a new contract using ```deployProxy``` in the OpenZeppelin Upgrades Plugins, that contract instance can be upgraded later. By default, only the address that originally deployed the contract have the rights to upgrade it.
 
